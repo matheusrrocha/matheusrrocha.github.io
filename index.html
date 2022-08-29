@@ -1,1 +1,73 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Option</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <div class="content" id="entries">
+                    <h3>USDJPY</h3>
+                    <h5>$ 100</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const email = "mainaccount@gmail.com";
+        const password = "it7or7&C@$Q!7FqtyDbY?EBabok#kTJSnxN8esL4";
+        let first = true;
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js";
+        import { getDatabase, ref, set, onValue, push, update, child } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCfPLG-hahtgZU-wYohXRKENjjoNkOSfds",
+            authDomain: "quotex-copy.firebaseapp.com",
+            databaseURL: "https://quotex-copy-default-rtdb.firebaseio.com",
+            projectId: "quotex-copy",
+            storageBucket: "quotex-copy.appspot.com",
+            messagingSenderId: "207978811837",
+            appId: "1:207978811837:web:074548a06bb148e677c2d4"
+        };
+
+        appCustom = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log("Credencial válida")
+            database = getDatabase();
+            
+            entries = ref(database, 'entriesIQOption');
+            onValue(entries, snapshot => {
+                if(!first) {
+                    const val = snapshot.val();
+                    const totalEntries = Object.keys(val).length
+                    const key = Object.keys(val)[totalEntries - 1]
+                    const snap = val[key]
+                    const { symbol, amount } = snap
+                    
+                }
+
+                first = false;
+            });
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error([errorCode, errorMessage]);
+        });
+
+    </script>
+</body>
+</html>
