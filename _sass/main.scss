@@ -1,0 +1,135 @@
+@charset "utf-8";
+
+// Customization
+
+// You can easily customize Bulma with your own variables.
+// Just uncomment the following block to see the result.
+
+/*
+// 1. Import the initial variables
+@import "../node_modules/bulma/sass/utilities/initial-variables";
+
+
+// 2. Set your own initial variables
+// Update the blue shade, used for links
+$blue: #06bcef;
+// Add pink and its invert
+$pink: #ff8080;
+$pink-invert: #fff;
+// Update the sans-serif font family
+$family-sans-serif: "Helvetica", "Arial", sans-serif;
+
+// 3. Set the derived variables
+// Use the new pink as the primary color
+$primary: $pink;
+$primary-invert: $pink-invert;
+
+// 4. Import the rest of Bulma
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap');
+$family-sans-serif: 'Montserrat', sans-serif;
+
+@import "../node_modules/bulma/bulma";
+
+$green: #3ea13e;
+$green-zero: #38dcad;
+$red: #e82020;
+$blue: #2a76d8;
+$yellow: #f2f22f;
+$black: #3d3b3b;
+
+.hidden {
+    display: none;
+}
+
+.main-form {
+
+    .add-item-colunm {
+        border-right: 0.5px solid #ccc;
+        padding-right: 30px;
+    }
+
+    small {
+        font-size: 10px;
+        font-weight: normal;
+    }
+
+    ul {
+        list-style: none;
+        li {
+            width: 30px;
+            height: 27px;
+            text-align: center;
+            border: #3d3b3b 1px solid;
+            float: left;
+            margin-left: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-weight: bold;
+
+            &:hover {
+                background-color: $red;
+                color: white;
+            }
+        }
+    }
+}
+
+.list-colors {
+    margin-left: 0px;
+
+    .green {
+        background-color: $green;
+        color: white;
+    }
+
+    .green-zero {
+        background-color: $green-zero;
+        color: white;
+    }
+
+    .red {
+        background-color: $red;
+        color: white;
+    }
+
+    .blue {
+        background-color: $blue;
+        color: white;
+    }
+
+    .yellow {
+        background-color: $yellow;
+        color: black;
+    }
+
+    .black {
+        background-color: $black;
+        color: white;
+    }
+
+    .column:not(.result) {
+        max-width: 45px;
+        min-height: 45px;
+        border: rgb(127, 124, 124) 1px solid;
+        border-radius: 2px;
+        margin-left: 3px;
+        text-align: center;
+        font-weight: bold;
+
+    }
+
+    .result {
+        text-align: left;
+        h2 {
+            padding-left: 50px;
+            color: $black;
+
+            span {
+                padding: 0 5px;
+            }
+
+        }
+    }
+}

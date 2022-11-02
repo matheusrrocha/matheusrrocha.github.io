@@ -1,73 +1,755 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IQ Option</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Roleta CTC</title>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    
-    <div class="container">
-        <div class="card">
-            <div class="card-content">
-                <div class="content" id="entries">
-                    <h3>USDJPY</h3>
-                    <h5>$ 100</h5>
+    <section class="container py-5 main-form">
+        <div class="columns">
+            <div class="column is-3 add-item-colunm">
+                <form onsubmit="return saveLastNumber(this);" method="GET">
+                    <div class="field">
+                        <label class="label">NÚMERO</label>
+                        <div class="control">
+                            <input class="input" type="text" id="lastNumber" placeholder="">
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button type="button" class="button is-link" onclick="saveLastNumber(this)">Adicionar</button>
+                        </div>
+                        <div class="control">
+                            <button type="button" class="button is-danger" onclick="clearAll()">Limpar</button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="column is-9 ml-4">
+                <h3 class="title is-size-6">ÚLTIMOS NÚMEROS <small>(clique no número para remover)</small></h3>
+                <ul id="allNumbers"></ul>
+            </div>
+        </div>
+    </section>
+    <section class="container mb-6">
+        <label class="checkbox">
+            <input type="checkbox" value="1" id="onlyNextGames">
+            <b>Mostrar apenas possíveis jogos próximos</b>
+        </label>
+    </section>
+    <section class="container mb-5" id="black-reds">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="title is-size-5">
+                    Pretas/Vermelhas
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Continuos</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="blackRedsContinuous" placeholder="" value="9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alternados</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="blackRedsAlternate" placeholder="" value="9">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        
+        <div class="columns list-colors">
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
 
-    <script type="module">
-        const email = "mainaccount@gmail.com";
-        const password = "it7or7&C@$Q!7FqtyDbY?EBabok#kTJSnxN8esL4";
-        let first = true;
-
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js";
-        import { getDatabase, ref, set, onValue, push, update, child } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCfPLG-hahtgZU-wYohXRKENjjoNkOSfds",
-            authDomain: "quotex-copy.firebaseapp.com",
-            databaseURL: "https://quotex-copy-default-rtdb.firebaseio.com",
-            projectId: "quotex-copy",
-            storageBucket: "quotex-copy.appspot.com",
-            messagingSenderId: "207978811837",
-            appId: "1:207978811837:web:074548a06bb148e677c2d4"
-        };
-
-        appCustom = initializeApp(firebaseConfig);
-        const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log("Credencial válida")
-            database = getDatabase();
+            <div class="column">
+                
+            </div>
             
-            entries = ref(database, 'entriesIQOption');
-            onValue(entries, snapshot => {
-                if(!first) {
-                    const val = snapshot.val();
-                    const totalEntries = Object.keys(val).length
-                    const key = Object.keys(val)[totalEntries - 1]
-                    const snap = val[key]
-                    const { symbol, amount } = snap
-                    
-                }
+            <div class="column result">
+                <h2 class="title is-size-5"></h2>
+            </div>
+        </div>
+    </section>
+    <section class="container mb-5" id="even-odd">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="title is-size-5">
+                    Par/Ímpar
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Continuos</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="evenOddContinuous" placeholder="" value="9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alternados</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="evenOddAlternate" placeholder="" value="9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columns list-colors">
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column result">
+                <h2 class="title is-size-5"></h2>
+            </div>
+        </div>
+    </section>
+    <section class="container mb-5" id="orphans">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="title is-size-5">
+                    Órfãos/Não Órfãos
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Continuos</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="orphansContinuous" placeholder="" value="9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alternados</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="orphansAlternate" placeholder="" value="9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columns list-colors">
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
 
-                first = false;
-            });
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error([errorCode, errorMessage]);
-        });
+            <div class="column result">
+                <h2 class="title is-size-5"></h2>
+            </div>
+        </div>
+    </section>
+    <section class="container mb-5" id="low-high">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="title is-size-5">
+                    1-18/19-36
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Continuos</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="lowHighContinuous" placeholder="" value="9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alternados</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="lowHighAlternate" placeholder="" value="9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columns list-colors">
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
 
-    </script>
+            <div class="column result">
+                <h2 class="title is-size-5"></h2>
+            </div>
+        </div>
+    </section>
+    <section class="container mb-5" id="columns">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="title is-size-5">
+                    Colunas
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Continuos</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="columnContinuous" placeholder="" value="4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alternados</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="columnAlternate" placeholder="" value="4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columns list-colors">
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column result">
+                <h2 class="title is-size-5"></h2>
+            </div>
+        </div>
+    </section>
+    <section class="container mb-5" id="dozens">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="title is-size-5">
+                    Dezenas
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Continuos</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="dozenContinuous" placeholder="" value="5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alternados</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="dozenAlternate" placeholder="" value="5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columns list-colors">
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column result">
+                <h2 class="title is-size-5"></h2>
+            </div>
+        </div>
+    </section>
+    <section class="container mb-5" id="in-out">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="title is-size-5">
+                    Dentro/Fora
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Continuos</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="inOutContinuous" placeholder="" value="5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alternados</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="inOutAlternate" placeholder="" value="7">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columns list-colors">
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column result">
+                <h2 class="title is-size-5"></h2>
+            </div>
+        </div>
+    </section>
+    <section class="container mb-5" id="slices">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="title is-size-5">
+                    Fatias
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Continuos</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="sliceContinuous" placeholder="" value="4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alternados</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" id="sliceAlternate" placeholder="" value="4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columns list-colors">
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column">
+                
+            </div>
+            <div class="column result">
+                <h2 class="title is-size-5"></h2>
+            </div>
+        </div>
+    </section>
+    
+    <script type="text/javascript" src="lib/main.js"></script>
 </body>
 </html>
