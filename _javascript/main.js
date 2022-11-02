@@ -25,6 +25,10 @@ const columnsMessageContainer = columnsContainer.getElementsByClassName("list-co
 
 const blacks = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
 const reds = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
+const even = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36]
+const lows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 18]
+const highs = [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
+const odds = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35]
 const orphans = [1, 2, 3, 4, 5, 6, 7, 14, 15, 22, 23, 24, 25, 32, 33, 34, 35, 36]
 const nonOrphans = [8, 11, 10, 13, 9, 12, 16, 19, 17, 20, 18, 21, 26, 29, 28, 31, 27, 30]
 const column1 = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
@@ -59,6 +63,7 @@ let sliceAlternateTrigger = document.getElementById("sliceAlternate").value
 
 setInterval(() => {
     updateVars()
+    loadTooltips()
 }, 1000)
 
 onlyNextGames.addEventListener("click", (el) => {
@@ -253,7 +258,8 @@ const updateBlackRedsUI = numbers => {
         }
 
         if(blacks.includes(n)) {
-            columns[index].classList.add("black")   
+            columns[index].classList.add("black")
+            columns[index].classList.add("blacks")
 
             if(lastColor == "") {
                 sequence = 1
@@ -271,6 +277,7 @@ const updateBlackRedsUI = numbers => {
 
         if(reds.includes(n)) {
             columns[index].classList.add("red")    
+            columns[index].classList.add("reds")
 
             if(lastColor == "") {
                 sequence = 1
@@ -332,36 +339,37 @@ const updateEvenOddUI = numbers => {
 
     numbers.forEach(n => {
         if(n % 2 != 0) {
-            columns[index].classList.add("green")  
+            columns[index].classList.add("red")
+            columns[index].classList.add("odd")
             if(lastColor == "") {
                 sequence = 1
                 alternates = 1
-            } else if (lastColor == "green")  {
-                sequence++
-                alternates = 0
-            } else if (lastColor == "red") {
-                sequence = 1
-                alternates++
-            }  
-
-            lastColor = "green"
-        }
-
-        if(n % 2 == 0) {
-            columns[index].classList.add("red")   
-
-            if(lastColor == "") {
-                sequence = 1
-                alternates = 1
-            } else if(lastColor == "red")  {
+            } else if (lastColor == "red")  {
                 sequence++
                 alternates = 0
             } else if (lastColor == "green") {
                 sequence = 1
                 alternates++
-            }
+            }  
 
             lastColor = "red"
+        }
+
+        if(n % 2 == 0) {
+            columns[index].classList.add("green")   
+            columns[index].classList.add("even")
+            if(lastColor == "") {
+                sequence = 1
+                alternates = 1
+            } else if(lastColor == "green")  {
+                sequence++
+                alternates = 0
+            } else if (lastColor == "red") {
+                sequence = 1
+                alternates++
+            }
+
+            lastColor = "green"
         }
 
         if(n == 0) {
@@ -370,7 +378,6 @@ const updateEvenOddUI = numbers => {
             alternates = 0
             lastColor = ""
         }
-
 
         columns[index].innerHTML = n
         index++
@@ -420,6 +427,7 @@ const updateOrphansUI = numbers => {
     numbers.forEach(n => {
         if(orphans.includes(n)) {
             columns[index].classList.add("green")  
+            columns[index].classList.add("orphan")
             if(lastColor == "") {
                 sequence = 1
                 alternates = 1
@@ -436,6 +444,7 @@ const updateOrphansUI = numbers => {
 
         if(nonOrphans.includes(n)) {
             columns[index].classList.add("red")   
+            columns[index].classList.add("nonorphan")
 
             if(lastColor == "") {
                 sequence = 1
@@ -506,6 +515,7 @@ const updateLowHighUI = numbers => {
     numbers.forEach(n => {
         if(n >= 19) {
             columns[index].classList.add("green")  
+            columns[index].classList.add("high")
             if(lastColor == "") {
                 sequence = 1
                 alternates = 1
@@ -522,6 +532,7 @@ const updateLowHighUI = numbers => {
 
         if(n <= 18) {
             columns[index].classList.add("red")   
+            columns[index].classList.add("low")
 
             if(lastColor == "") {
                 sequence = 1
@@ -592,6 +603,7 @@ const updateColumnsUI = numbers => {
     numbers.forEach(n => {
         if(column1.includes(n)) {
             columns[index].classList.add("green")    
+            columns[index].classList.add("column1")    
 
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -626,6 +638,7 @@ const updateColumnsUI = numbers => {
 
         if(column2.includes(n)) {
             columns[index].classList.add("blue") 
+            columns[index].classList.add("column2")    
             
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -661,7 +674,8 @@ const updateColumnsUI = numbers => {
         }
 
         if(column3.includes(n)) {
-            columns[index].classList.add("yellow")    
+            columns[index].classList.add("yellow")  
+            columns[index].classList.add("column3")      
             
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -742,6 +756,7 @@ const updateDozensUI = numbers => {
     numbers.forEach(n => {
         if(dozen1.includes(n)) {
             columns[index].classList.add("green")    
+            columns[index].classList.add("dozen1")
 
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -775,7 +790,8 @@ const updateDozensUI = numbers => {
         }
 
         if(dozen2.includes(n)) {
-            columns[index].classList.add("blue") 
+            columns[index].classList.add("blue")
+            columns[index].classList.add("dozen2") 
             
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -811,7 +827,8 @@ const updateDozensUI = numbers => {
         }
 
         if(dozen3.includes(n)) {
-            columns[index].classList.add("yellow")    
+            columns[index].classList.add("yellow")
+            columns[index].classList.add("dozen3")    
             
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -897,7 +914,8 @@ const updateInOutUI = numbers => {
         }
 
         if(ins.includes(n)) {
-            columns[index].classList.add("green")   
+            columns[index].classList.add("green")  
+            columns[index].classList.add("in") 
 
             if(lastColor == "") {
                 sequence = 1
@@ -915,6 +933,7 @@ const updateInOutUI = numbers => {
 
         if(outs.includes(n)) {
             columns[index].classList.add("red")    
+            columns[index].classList.add("out")
 
             if(lastColor == "") {
                 sequence = 1
@@ -978,6 +997,7 @@ const updateSlicesUI = numbers => {
     numbers.forEach(n => {
         if(slice1.includes(n)) {
             columns[index].classList.add("green")    
+            columns[index].classList.add("slice1")
 
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -1012,6 +1032,7 @@ const updateSlicesUI = numbers => {
 
         if(slice2.includes(n)) {
             columns[index].classList.add("blue") 
+            columns[index].classList.add("slice2")
             
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -1047,7 +1068,8 @@ const updateSlicesUI = numbers => {
         }
 
         if(slice3.includes(n)) {
-            columns[index].classList.add("yellow")    
+            columns[index].classList.add("yellow") 
+            columns[index].classList.add("slice3")   
             
             if(lastColor == "") { //initial state
                 sequence = 1
@@ -1199,7 +1221,8 @@ const updateVars = () => {
 
 const loadInitialVars = () => {
     if(window.localStorage.getItem("onlyNextGames")) {
-        onlyNextGames.checked = window.localStorage.getItem("onlyNextGames")
+        console.log(window.localStorage.getItem("onlyNextGames"))
+        onlyNextGames.checked = window.localStorage.getItem("onlyNextGames") == "true"
     }
 
     if(window.localStorage.getItem("blackRedsContinuous")) {
@@ -1282,6 +1305,105 @@ const loadInitialVars = () => {
         document.getElementById("sliceAlternate").value = window.localStorage.getItem("sliceAlternate")
     }
 }
+
+
+const loadTooltips = () => {
+    tippy('.column.blacks', {
+        content: `Pretas: ${blacks.join(", ")}`,
+        trigger: 'click'
+    });
+    
+    tippy('.column.reds', {
+        content: `Vermelhas: ${reds.join(", ")}`,
+        trigger: 'click',
+    });
+    
+    tippy('.column.even', {
+        content: `Pares: ${even.join(", ")}`,
+        trigger: 'click',
+    });
+    
+    tippy('.column.odd', {
+        content: `Ímpares: ${odds.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.orphan', {
+        content: `Órfãos: ${orphans.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.nonorphan', {
+        content: `Não Órfãos: ${nonOrphans.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.column1', {
+        content: `Coluna 1: ${column1.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.column2', {
+        content: `Coluna 2: ${column2.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.column3', {
+        content: `Coluna 3: ${column3.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.slice1', {
+        content: `Fatia 1: ${slice1.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.slice2', {
+        content: `Fatia 2: ${slice2.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.slice3', {
+        content: `Fatia 3: ${slice3.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.dozen1', {
+        content: `Dezena 1: ${dozen1.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.dozen2', {
+        content: `Dezena 2: ${dozen2.join(", ")}`,
+        trigger: 'click',
+    });
+    
+    tippy('.column.dozen3', {
+        content: `Dezena 3: ${dozen3.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.in', {
+        content: `Dentro: ${ins.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.out', {
+        content: `Fora: ${outs.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.low', {
+        content: `1-18: ${lows.join(", ")}`,
+        trigger: 'click',
+    });
+
+    tippy('.column.high', {
+        content: `19-36: ${highs.join(", ")}`,
+        trigger: 'click',
+    });
+}
+
 
 loadInitialVars()
 updateUI()

@@ -35,6 +35,7 @@
     "start": "npm-run-all --parallel css-watch js-watch"
   },
   "dependencies": {
-    "hover.css": "^2.3.2"
+    "hover.css": "^2.3.2",
+    "tippy.js": "^6.3.7"
   }
 }
