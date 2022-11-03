@@ -63,7 +63,6 @@ let sliceAlternateTrigger = document.getElementById("sliceAlternate").value
 
 setInterval(() => {
     updateVars()
-    loadTooltips()
 }, 1000)
 
 onlyNextGames.addEventListener("click", (el) => {
@@ -85,7 +84,7 @@ const updateUI = () => {
         li.setAttribute("title", "Clique para remover")
         li.setAttribute("data-index", index)
         li.addEventListener("click", function (el) {
-            numbers.splice(el.target.getAttribute("data-index"), 1)
+            numbers.reverse().splice(el.target.getAttribute("data-index"), 1)
             window.localStorage.setItem("numbers", JSON.stringify(numbers.reverse()))
             updateUI()
         })
@@ -234,6 +233,7 @@ function saveLastNumber(event) {
         }
 
         updateUI()
+        loadTooltips()
     } else (
         alert("Preencha um valor.")
     )
@@ -388,9 +388,9 @@ const updateEvenOddUI = numbers => {
     
     if(sequence >= continuosTrigger - 1) {
         if(lastColor == "green") {
-            evenOddMessageContainer.innerHTML = `Aposta nas <span class="red">vermelhas</span>`
+            evenOddMessageContainer.innerHTML = `Aposta nas <span class="red">vermelhas</span> - Impar`
         } else {
-            evenOddMessageContainer.innerHTML = `Aposta nas <span class="green">verdes</span>`
+            evenOddMessageContainer.innerHTML = `Aposta nas <span class="green">verdes</span> - Par`
         }
     } else {
         if(sequence == continuosTrigger - 2) { 
@@ -398,9 +398,9 @@ const updateEvenOddUI = numbers => {
         } else {
             if(alternates >= alternatesTrigger - 1) {
                 if(lastColor == "green") {
-                    evenOddMessageContainer.innerHTML = `Aposta nas <span class="green">verdes</span>`
+                    evenOddMessageContainer.innerHTML = `Aposta nas <span class="green">verdes</span> - Par`
                 } else {
-                    evenOddMessageContainer.innerHTML = `Aposta nas <span class="red">vermelhas</span>`
+                    evenOddMessageContainer.innerHTML = `Aposta nas <span class="red">vermelhas</span> - Impar`
                 }
             } else {
                 if(alternates == alternatesTrigger - 2) { 
@@ -477,9 +477,9 @@ const updateOrphansUI = numbers => {
     
     if(sequence >= continuosTrigger - 1) {
         if(lastColor == "green") {
-            orphansMessageContainer.innerHTML = `Aposta nas <span class="red">vermelhas</span>`
+            orphansMessageContainer.innerHTML = `Aposta nas <span class="red">vermelhas</span> - Não Orfãos`
         } else {
-            orphansMessageContainer.innerHTML = `Aposta nas <span class="green">verdes</span>`
+            orphansMessageContainer.innerHTML = `Aposta nas <span class="green">verdes</span> - Orfãos`
         }
     } else {
         if(sequence == continuosTrigger - 2) { 
@@ -487,9 +487,9 @@ const updateOrphansUI = numbers => {
         } else {
             if(alternates >= alternatesTrigger - 1) {
                 if(lastColor == "green") {
-                    orphansMessageContainer.innerHTML = `Aposta nas <span class="green">verdes</span>`
+                    orphansMessageContainer.innerHTML = `Aposta nas <span class="green">verdes</span> - Orfãos`
                 } else {
-                    orphansMessageContainer.innerHTML = `Aposta nas <span class="red">vermelhas</span>`
+                    orphansMessageContainer.innerHTML = `Aposta nas <span class="red">vermelhas</span> - Não Orfãos`
                 }
             } else {
                 if(alternates == alternatesTrigger - 2) { 
@@ -1407,3 +1407,4 @@ const loadTooltips = () => {
 
 loadInitialVars()
 updateUI()
+loadTooltips()
